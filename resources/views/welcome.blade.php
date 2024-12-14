@@ -13,6 +13,9 @@
         <div class="container-fluid page-content">
             @yield('page')
         </div>
+        <div class="row">
+            @include('component.footer')
+        </div>    
     </body>
     <script src="{{ asset('bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 </html>

@@ -16,6 +16,7 @@ a:hover{
 }
 
 body{
+  background-color: #f4f6f9; 
   overflow-x: hidden;
 }
 
@@ -26,4 +27,9 @@ body{
 .nav-item.active > .nav-link{
   font-weight: bold;
   color: rgb(0, 107, 71);
+}
+
+.card-hover:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
 }

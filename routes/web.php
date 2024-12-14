@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PantiController;
+use App\Http\Controllers\ProductController;
 use App\Http\Middleware\CheckRole;
 use Illuminate\Support\Facades\Auth;
 
@@ -10,6 +12,9 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+
+Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.detail');
+Route::get('/panti/{id}', [PantiController::class, 'show'])->name('panti.detail');
 
 Route::middleware('auth')->group(function () {
     Route::get('/', function (){
@@ -22,24 +27,28 @@ Route::middleware('auth')->group(function () {
         }else if($user->role == 'admin'){
             return view('page.home.home-admin', ['user' => $user]);
         }
-    });
+    })->name('home');
 
     Route::get('/catalog', function () {
         return view('page.catalog');
-    });
-
+    })->name('catalog');
+    
     Route::get('/panti', function () {
         return view('page.panti');
-    });
+    })->name('panti');
+    
+    Route::get('/about', function () {
+        return view('page.about');
+    })->name('about');
 
-    Route::get('/about-us', function () {
-        return view('page.about-us');
-    });
+    Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.detail');
+    
+    Route::get('/panti/{id}', [PantiController::class, 'show'])->name('panti.detail');
 
     Route::get('/profile', function () {
         $user = Auth::user(); // Get the authenticated user
         return view('page.profile', ['user' => $user]);
-    });
+    })->name('profile');
 
     Route::post('/logout', [AuthController::class, 'logout']);
 });

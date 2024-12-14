@@ -15,8 +15,8 @@
       <li class="nav-item {{ request()->is('panti') ? 'active' : '' }} ml-3">
         <a class="nav-link" href="/panti">Panti</a>
       </li>
-      <li class="nav-item {{ request()->is('about-us') ? 'active' : '' }} ml-3">
-        <a class="nav-link" href="/about-us">About Us</a>
+      <li class="nav-item {{ request()->is('about') ? 'active' : '' }} ml-3">
+        <a class="nav-link" href="/about">About</a>
       </li>
       <li class="nav-item {{ request()->is('profile') ? 'active' : '' }} ml-3">
         <a class="nav-link" href="/profile">{{ Auth::user()->name }}</a>

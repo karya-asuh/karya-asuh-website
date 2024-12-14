@@ -19,10 +19,12 @@ return new class extends Migration
                 `password` char(72) NOT NULL,
                 `role` enum("donor","panti","admin") NOT NULL DEFAULT "donor",
                 `user_image` varchar(36) DEFAULT NULL,
+                `remember_token` varchar(100) DEFAULT NULL,  -- Added remember_token column
                 `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
                 `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
             )
         ');
+
 
         // Alter the table to add keys
         DB::statement('

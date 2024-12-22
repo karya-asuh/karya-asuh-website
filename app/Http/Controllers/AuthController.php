@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -60,8 +61,16 @@ class AuthController extends Controller
         }
         
         Auth::login($user, true);
+        session(['user_id' => Auth::id()]);
+        // dd(Auth::user());
+
+        Log::info('User logged in:', ['user' => $user]);
+
+        Log::info('Session Data:', session()->all());
+
         
         if (Auth::check()) {
+            Log::info('Checked');
             return redirect('/')->with('success', 'Login successful!');
         } else {
             return redirect('/login')->withErrors(['login_error' => 'Authentication failed.']);

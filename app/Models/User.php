@@ -2,18 +2,26 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class User extends Authenticatable implements AuthenticatableContract
+class User extends Authenticatable
 {
     use HasFactory;
 
+    // Specify the table name
     protected $table = 'users';
-    // Specify the custom primary key
-    protected $primaryKey = 'user_id';  // Use 'user_id' instead of 'id'
-    // Define which fields can be mass-assigned
+
+    // Define the primary key and its type
+    protected $primaryKey = 'user_id';  // Custom primary key
+    protected $keyType = 'string';     // Since `user_id` is a UUID (string)
+
+    // Disable auto-increment for the primary key
+    public $incrementing = false;
+
+    // Allow mass assignment for all fields
     protected $guarded = [];
-    protected $hidden = ['password'];
+
+    // Hide sensitive fields from serialization
+    protected $hidden = ['password', 'remember_token'];
 }

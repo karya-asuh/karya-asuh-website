@@ -6,6 +6,7 @@ use App\Http\Controllers\PantiController;
 use App\Http\Controllers\ProductController;
 use App\Http\Middleware\CheckRole;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -19,9 +20,11 @@ Route::get('/panti/{id}', [PantiController::class, 'show'])->name('panti.detail'
 Route::middleware('auth')->group(function () {
     Route::get('/', function (){
         $user = Auth::user();
+        
+        Log::info('Currently User logged in:', ['user' => $user]);
 
         if($user->role == 'donor'){
-            return view('page.home.home-donor', ['user' => $user]);
+            return view('page.home.home-donor');
         }else if($user->role== 'panti'){
             return view('page.home.home-panti', ['user' => $user]);
         }else if($user->role == 'admin'){

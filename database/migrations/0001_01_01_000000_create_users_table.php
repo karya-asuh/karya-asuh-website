@@ -57,19 +57,25 @@ return new class extends Migration
             END
         ');
 
-        Schema::create('sessions', function (Blueprint $table) {
-            $table->string('id')->primary();
-            $table->foreignId('user_id')->nullable()->index();
-            $table->string('ip_address', 45)->nullable();
-            $table->text('user_agent')->nullable();
-            $table->longText('payload');
-            $table->integer('last_activity')->index();
-        });
+        // Create sessions table using raw SQL
+        DB::statement('
+            CREATE TABLE `sessions` (
+                `id` varchar(255) NOT NULL,
+                `user_id` char(39) DEFAULT NULL,
+                `ip_address` varchar(45) DEFAULT NULL,
+                `user_agent` text DEFAULT NULL,
+                `payload` longtext NOT NULL,
+                `last_activity` int NOT NULL,
+                PRIMARY KEY (`id`),
+                KEY `sessions_user_id_index` (`user_id`),
+                CONSTRAINT `sessions_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON UPDATE CASCADE ON DELETE CASCADE
+            )
+        ');    
     }
 
     public function down()
     {
-        Schema::dropIfExists('users');
         Schema::dropIfExists('sessions');
+        Schema::dropIfExists('users');
     }
 };

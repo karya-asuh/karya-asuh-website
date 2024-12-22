@@ -1,38 +1,75 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Withdraw;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class PantiController extends Controller
 {
-    public function show($id)
-    {
-        // Ensure $panti is always defined
-        $panti = [
-            'id' => $id,
-            'name' => 'Panti Sejahtera',
-            'location' => 'Jakarta, Indonesia',
-            'description' => 'A caring home for children in need.',
-            'image' => '/panti-detail.jpg',
-            'products' => [
-                [
-                    'id' => 1,
-                    'name' => 'Handmade Craft 1',
-                    'description' => 'Beautiful handmade craft',
-                    'price' => 50000,
-                    'image' => '/product1.jpg'
-                ],
-                [
-                    'id' => 2,
-                    'name' => 'Handmade Craft 2',
-                    'description' => 'Another beautiful handmade craft',
-                    'price' => 75000,
-                    'image' => '/product2.jpg'
-                ]
-            ]
-        ];
+    public function showAll(){
+        $pantis = DB::select("
+            SELECT users.*, panti_details.location 
+            FROM users
+            LEFT JOIN panti_details ON users.user_id = panti_details.panti_id
+            WHERE users.role = 'panti'
+        ");
 
-        // Double-check the variable is being passed
-        return view('page.panti-detail', ['panti' => $panti]);
+        return response()->json($pantis);
+    }
+
+    public function showSearch(Request $request)
+    {
+        $query = $request->input('query'); // Get the search query
+
+        $pantis = User::join('panti_details', 'users.user_id', '=', 'panti_details.panti_id')
+        ->where('users.role', 'panti') // Filter by role
+        ->select('users.*', 'panti_details.location');// Start with the 'panti' role
+
+        if ($query) {
+            $pantis = $pantis->where('name', 'like', '%' . $query . '%'); // Search by name
+        }
+
+        $pantis = $pantis->get(); // Fetch the filtered pantis
+
+        return view('page.panti', ['pantis' => $pantis]);
+    }
+
+    public function withdrawFund(Request $request){
+        $pantiId = Auth::id();
+        $payoutFund = $request->input('payout_fund');
+        $detail = $request->input('detail', null); // Default to null if no detail is provided
+
+        Withdraw::create([
+            'panti_id' => $pantiId,
+            'payout_fund' => $payoutFund,
+            'detail' => $detail,
+        ]);
+
+        return redirect('/profile')->with('success', 'Withdraw successfully!');
+    }
+
+    public function withdrawAll(){
+        $withdraws = DB::table('withdraws')
+        ->join('users', 'withdraws.panti_id', '=', 'users.user_id')
+        ->select('withdraws.*', 'users.name') // Add the columns you want to retrieve
+        ->get();
+
+        return response()->json($withdraws);
+    }
+
+    public function acceptWithdraw(Request $request, $id){
+        DB::statement("
+            UPDATE withdraws 
+            SET status = 'Withdrawn',
+            admin_id = :admin_id
+            WHERE withdraw_id = :id
+        ", ['id'=>$id,
+            'admin_id'=>Auth::id()]);
+
+        return redirect('/')->with('success', 'Withdrawn successfully!');
     }
 }

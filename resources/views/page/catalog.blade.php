@@ -8,13 +8,17 @@
           
           <!-- Search Bar -->
           <div class="mb-4">
-              <input type="text" class="form-control" placeholder="Search products...">
+            <form action="{{ route('catalog') }}" method="GET">
+              <input type="text" name="query" class="form-control" placeholder="Search products..." value="{{ request()->query('query') }}">
+            </form>
           </div>
 
           <!-- Product Grid -->
           <div class="row">
               <!-- Product Card (Repeat for multiple products) -->
-              @include('component.product-card')
+              @foreach ($creations as $creation)
+                @include('component.product-card', ['creation' => $creation])
+              @endforeach
               <!-- More product cards -->
           </div>
       </div>

@@ -17,8 +17,8 @@ return new class extends Migration
                 `name` varchar(100) NOT NULL,
                 `desc` text DEFAULT NULL,
                 `min_price` int(11) NOT NULL,
-                `type` enum("video","image") NOT NULL,
-                `creation_file` varchar(36) DEFAULT NULL,
+                `type` enum("video","image") NOT NULL DEFAULT "image",
+                `creation_file` varchar(42) DEFAULT NULL,
                 `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
                 `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
             )
@@ -29,6 +29,7 @@ return new class extends Migration
             ALTER TABLE `creations`
                 ADD PRIMARY KEY (`creation_id`),
                 ADD KEY `panti_id` (`panti_id`);
+                ADD UNIQUE KEY `unique_creation_file` (`creation_file`);
         ');
 
         // Create trigger for before insert

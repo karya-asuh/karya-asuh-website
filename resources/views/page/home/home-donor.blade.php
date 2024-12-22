@@ -21,7 +21,9 @@
           <h2 class="mb-3">Our Products</h2>
           <div class="row">
               <!-- Product Card (Repeat for multiple products) -->
-              @include('component.product-card')
+              @foreach ($creations as $creation)
+                @include('component.product-card', ['creation' => $creation])
+              @endforeach
               <!-- Repeat product cards -->
           </div>
       </div>
@@ -33,7 +35,9 @@
           <h2 class="mb-3">Our Panti Asuhan</h2>
           <div class="row">
               <!-- Panti Card (Repeat for multiple panti) -->
-              @include('component.panti-card')
+              @foreach ($pantis as $panti)
+                @include('component.panti-card', ['panti' => $panti])
+              @endforeach
               <!-- Repeat panti cards -->
           </div>
       </div>

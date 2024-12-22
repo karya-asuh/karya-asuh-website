@@ -8,13 +8,17 @@
           
           <!-- Search Bar -->
           <div class="mb-4">
-              <input type="text" class="form-control" placeholder="Search panti...">
+              <form action="{{ route('panti') }}" method="GET">
+                <input type="text" name="query" class="form-control" placeholder="Search panti..." value="{{ request()->query('query') }}">
+              </form>
           </div>
 
           <!-- Panti Grid -->
           <div class="row">
               <!-- Panti Card (Repeat for multiple panti) -->
-              @include('component.panti-card')
+              @foreach ($pantis as $panti)
+                @include('component.panti-card', ['panti' => $panti])
+              @endforeach
               <!-- More panti cards -->
           </div>
       </div>

@@ -49,9 +49,6 @@ return new class extends Migration
         // Create trigger for before insert
         DB::statement('
             CREATE TRIGGER `set_transaction_before_insert` BEFORE INSERT ON `transactions` FOR EACH ROW BEGIN
-                -- Only set the user_id if its not explicitly provided
-                SET NEW.transaction_id = CONCAT("TR-", UUID());
-                
                 -- Fetch and assign the panti_id based on creation_id
                 SELECT panti_id
                 INTO @panti_id

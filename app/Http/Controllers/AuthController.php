@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -84,5 +85,16 @@ class AuthController extends Controller
         $request->session()->invalidate();  // Invalidates the session
         $request->session()->regenerateToken();  // Regenerates the CSRF token to prevent CSRF attacks
         return redirect('/login')->with('success', 'Logged out successfully!');
+    }
+
+    public function showUserDetail(){
+        $panti = DB::select("
+            SELECT users.*, panti_details.*
+            FROM users
+            LEFT JOIN panti_details ON users.user_id = panti_details.panti_id
+            WHERE users.user_id = :id
+        ", ['id' => Auth::id()]);
+
+        return response()->json($panti);
     }
 }

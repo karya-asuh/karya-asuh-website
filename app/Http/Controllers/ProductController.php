@@ -108,7 +108,7 @@ class ProductController extends Controller
         $fileName = $uuid . '.' . $request->file('creation_file')->getClientOriginalExtension(); // Keep original file extension
 
         // Move the uploaded file to the desired location
-        $request->file('creation_file')->move(storage_path('product'), $fileName);
+        $request->file('creation_file')->move(storage_path('app/public/' . 'product'), $fileName);
 
         DB::table('creations')->insert([
             'panti_id' => Auth::id(),

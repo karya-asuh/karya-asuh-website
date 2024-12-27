@@ -1,0 +1,39 @@
+{
+  "version": 2,
+  "framework": null,
+  "functions": {
+      "api/index.php": { "runtime": "vercel-php@0.6.1" }
+  },
+  "routes": [
+      { "src": "/build/(.*)", "dest": "/public/build/" },
+      { "src": "/bootstrap/(.*)", "dest": "/public/bootstrap/$1" },
+      { "src": "/css/(.*)", "dest": "/public/css/$1" },
+      { "src": "/empty-image/(.*)", "dest": "/public/empty-image/$1" },
+      { "src": "/storage/(.*)", "dest": "/public/storage/$1" },
+      { "src": "/(.*)", "dest": "/api/index.php" }
+  ],
+  "public": true,
+  "buildCommand": "vite build",
+  "outputDirectory": "public",
+  "env": {
+      "APP_ENV": "production",
+      "APP_DEBUG": "false",
+      "APP_URL": "https://yourproductionurl.com",
+      "APP_KEY": "base64:uGqM8UcCiZonir149b2kB87NVWkoV0mau+12YZP0k+o=",
+      "APP_CONFIG_CACHE": "/tmp/config.php",
+      "APP_EVENTS_CACHE": "/tmp/events.php",
+      "APP_PACKAGES_CACHE": "/tmp/packages.php",
+      "APP_ROUTES_CACHE": "/tmp/routes.php",
+      "APP_SERVICES_CACHE": "/tmp/services.php",
+      "VIEW_COMPILED_PATH": "/tmp",
+      "CACHE_DRIVER": "array",
+      "LOG_CHANNEL": "stderr",
+      "SESSION_DRIVER": "cookie",
+      "DB_CONNECTION": "mysql",
+      "DB_HOST": "s8h00.h.filess.io",
+      "DB_PORT": "3305",
+      "DB_DATABASE": "karyaasuhdb_savedneeds",
+      "DB_USERNAME": "karyaasuhdb_savedneeds",
+      "DB_PASSWORD": "7886aabe4a0bfe3e2f3ff997bf515d6080523d4e"
+  }
+}

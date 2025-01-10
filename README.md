@@ -2,10 +2,10 @@
 Here's our publication link: https://karya-asuh-website.vercel.app
 
 # Kelompok
-Christian Antonius Anggaresta - 2602179214
-Gabriel Enrico - 2602105481
-Albert Tanubrata - 2602091961
-Alexander Prajna Felipe - 2602097403
+Christian Antonius Anggaresta - 2602179214<br>
+Gabriel Enrico - 2602105481<br>
+Albert Tanubrata - 2602091961<br>
+Alexander Prajna Felipe - 2602097403<br>
 Andreas Mardohar Kristianto - 2602100096
 
 # Documentation
